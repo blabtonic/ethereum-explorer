@@ -26,11 +26,26 @@ class EthOverview extends Component {
     // retreive ETH price through api
     axios.get(endpoint + `?module=stats&action=ethprice&apikey=${KEY}`).then((res) => {
       const { result } = res.data;
-      this.setState ({
-        ethUSD: result.ethusd,
-        ethBTC: result.ethbtc,
-        timeStamp: result.ethusd_timestamp
-      })
+      this.setState(
+        {
+          ethUSD: result.ethusd,
+          ethBTC: result.ethbtc,
+          timeStamp: result.ethusd_timestamp,
+        },
+        () => {
+          // get market cap of ether in USD
+          axios.get(endpoint + `?module=stats&action=ethsupply&apikey=${KEY}`).then((res) => {
+            const { result } = res.data;
+            // in wei
+            const priceWei = result.toString();
+
+            //in ether
+            const priceEth = priceWei.slice(0, priceWei.length - 18);
+            console.log(result, priceWei, priceEth);
+            // TODO: convert eth to USD
+          });
+        }
+      );
     });
   }
 }
