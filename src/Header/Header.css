@@ -1,0 +1,7 @@
+.ui.block.header {
+  text-align: left;
+  background: white;
+  color: dodgerblue;
+  box-shadow: 1px 1px dodgerblue;
+  margin: 10px;
+}
