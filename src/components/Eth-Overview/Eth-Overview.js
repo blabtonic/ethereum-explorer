@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './eth-overview.css';
 import { Card, Grid, Icon } from 'semantic-ui-react';
+import LatestBlocks from '../Latest-Blocks/index';
 
 // import api key
 const KEY = process.env.REACT_APP_ETHERSCAN_API_KEY;
@@ -61,6 +62,7 @@ class EthOverview extends Component {
         latestBlock: parseInt(res.data.result),
         blockNo: res.data.result, // block number is in hex
       });
+
       // get block difficulty
       axios
         .get(
@@ -76,11 +78,23 @@ class EthOverview extends Component {
 
           const difficulty = parseInt(result.difficulty).toString();
 
-          console.log(difficulty, convertBlockTime.toLocaleString());
+          const difficultyTH = `${difficulty.slice(0, 4)}.${difficulty.slice(4, 6)} TH`;
+
+          this.setState({
+            difficulty: difficultyTH,
+          });
+
+          //console.log(difficulty, convertBlockTime.toLocaleString());
         });
     });
     /* END BLOCK */
   }
+
+  getLatestBlocks = () => {
+    if (this.state.latestBlock) {
+      return <LatestBlocks latestBlock={this.state.latestBlock}></LatestBlocks>;
+    }
+  };
 
   render() {
     const { ethUSD, ethBTC, currentDate } = this.state;
@@ -94,7 +108,7 @@ class EthOverview extends Component {
         {dateConvert.toLocaleString()}
         <Grid>
           <Grid.Row>
-            <Grid.Column width={4}>
+            <Grid.Column width={5}>
               <Card>
                 <Card.Content>
                   <Card.Header style={{ color: '#1A90df' }}>
