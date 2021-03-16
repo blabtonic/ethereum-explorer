@@ -6,7 +6,7 @@ import { Card, Grid, Icon } from 'semantic-ui-react';
 // import api key
 const KEY = process.env.REACT_APP_ETHERSCAN_API_KEY;
 
-const endpoint = `http://api.etherscan.io/api`;
+const endpoint = `https://api.etherscan.io/api`;
 
 class EthOverview extends Component {
   constructor() {
@@ -23,6 +23,7 @@ class EthOverview extends Component {
   }
 
   async componentDidMount() {
+    /* PRICE */
     // retreive ETH price through api
     axios.get(endpoint + `?module=stats&action=ethprice&apikey=${KEY}`).then((res) => {
       const { result } = res.data;
@@ -41,12 +42,39 @@ class EthOverview extends Component {
 
             //in ether
             const priceEth = priceWei.slice(0, priceWei.length - 18);
-            console.log(result, priceWei, priceEth);
-            // TODO: convert eth to USD
+            //console.log(result, priceWei, priceEth);
+            // convert eth to USD
+            this.setState({
+              marketCap: parseInt(priceEth) * this.state.ethUSD,
+            });
           });
         }
       );
     });
+    /* End PRICE */
+
+    /* BLOCK */
+    // Retreive latest Block number
+    axios.get(endpoint + `?module=proxy&action=eth_blockNumber&apikey=${KEY}`).then((res) => {
+      this.setState({
+        latestBlock: parseInt(res.data.result),
+        blockNo: res.data.result, // block number is in hex
+      });
+      // get block difficulty
+      axios
+        .get(
+          endpoint +
+            `?module=proxy&action=eth_getBlockByNumber&tag=${res.data.result}&boolean=true&apikey=${KEY}`
+        )
+        .then((blockDetail) => {
+          const { result } = blockDetail.data;
+
+          const difficulty = parseInt(result.difficulty).toString();
+
+          console.log(difficulty);
+        });
+    });
+    /* END BLOCK */
   }
 
   render() {
