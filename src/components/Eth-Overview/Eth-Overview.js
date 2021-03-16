@@ -6,7 +6,7 @@ import { Card, Grid, Icon } from 'semantic-ui-react';
 // import api key
 const KEY = process.env.REACT_APP_ETHERSCAN_API_KEY;
 
-const endpoint = `https://api.etherscan.io/api`;
+const endpoint = `http://api.etherscan.io/api`;
 
 class EthOverview extends Component {
   constructor() {
@@ -48,4 +48,27 @@ class EthOverview extends Component {
       );
     });
   }
+
+  render() {
+    return (
+      <div>
+        <Grid>
+          <Grid.Row>
+            <Grid.Column width={4}>
+              <Card>
+                <Card.Content>
+                  <Card.Header style={{ color: '#1e90ff' }}>
+                    <Icon name="ethereum"></Icon>ETHER PRICE
+                  </Card.Header>
+                  <Card.Description textAlign="left"></Card.Description>
+                </Card.Content>
+              </Card>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </div>
+    );
+  }
 }
+
+export default EthOverview;
