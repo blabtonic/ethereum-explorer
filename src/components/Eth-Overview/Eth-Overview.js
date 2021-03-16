@@ -17,8 +17,9 @@ class EthOverview extends Component {
       blockNo: null,
       latestBlock: 0,
       difficulty: null,
+      blockTime: null,
       marketCap: 0,
-      timeStamp: null,
+      currentDate: null,
     };
   }
 
@@ -31,7 +32,7 @@ class EthOverview extends Component {
         {
           ethUSD: result.ethusd,
           ethBTC: result.ethbtc,
-          timeStamp: result.ethusd_timestamp,
+          currentDate: result.ethusd_timestamp,
         },
         () => {
           // get market cap of ether in USD
@@ -40,7 +41,7 @@ class EthOverview extends Component {
             // in wei
             const priceWei = result.toString();
 
-            //in ether
+            // in ether
             const priceEth = priceWei.slice(0, priceWei.length - 18);
             //console.log(result, priceWei, priceEth);
             // convert eth to USD
@@ -69,26 +70,42 @@ class EthOverview extends Component {
         .then((blockDetail) => {
           const { result } = blockDetail.data;
 
+          const blockTime = parseInt(result.timestamp).toString();
+          const blockUnix = blockTime;
+          const convertBlockTime = new Date(blockUnix * 1000);
+
           const difficulty = parseInt(result.difficulty).toString();
 
-          console.log(difficulty);
+          console.log(difficulty, convertBlockTime.toLocaleString());
         });
     });
     /* END BLOCK */
   }
 
   render() {
+    const { ethUSD, ethBTC, currentDate } = this.state;
+    // convert unix timestamp to date
+    const unixTime = currentDate;
+    const dateConvert = new Date(unixTime * 1000);
+
     return (
       <div>
+        {/* Move to header */}
+        {dateConvert.toLocaleString()}
         <Grid>
           <Grid.Row>
             <Grid.Column width={4}>
               <Card>
                 <Card.Content>
-                  <Card.Header style={{ color: '#1e90ff' }}>
+                  <Card.Header style={{ color: '#1A90df' }}>
                     <Icon name="ethereum"></Icon>ETHER PRICE
                   </Card.Header>
-                  <Card.Description textAlign="left"></Card.Description>
+                  <Card.Description textAlign="left">
+                    <Icon name="usd"></Icon>
+                    {ethUSD} <Icon name="at"></Icon>
+                    {ethBTC} <Icon name="bitcoin"></Icon>
+                    <Icon name="clock"></Icon>
+                  </Card.Description>
                 </Card.Content>
               </Card>
             </Grid.Column>
