@@ -22,26 +22,38 @@ class LatestBlocks extends Component {
 
     let blocks = [];
 
-    for (let i = 0; i < 5; i = i + 1) {
-      // retrieve block transaction
+    for (let i = 0; i < 2; i = i + 1) {
+      // get the block transaction
+      // const blockDetail = await axios.get(
+      //   endpoint +
+      //     `?module=proxy&action=eth_getBlockByNumber&tag=${(latestBlock - i).toString(
+      //       16
+      //     )}&boolean=true&apikey=${KEY}`
+      // );
       const blockDetail = await axios.get(
         endpoint +
-          `?module=proxy&action=eth_getBlockByNumber&tag=${(latestBlock - i).toString(
-            16
-          )}&boolean=true&apikey${KEY}`
+          `?module=proxy&action=eth_getBlockByNumber&tag=0x10d4f&boolean=true&apikey=${KEY}`
       );
 
-      const { result } = blockDetail.data;
+      console.log(blockDetail.data);
       blocks.push(
         <Table.Row key={i}>
           <Table.Cell>
-            <Label color="blue">bk</Label> {latestBlock - i}
+            <Label color="blue">Bk</Label> {latestBlock - i}
           </Table.Cell>
           <Table.Cell>
-            Miner {result.miner}
+            Miner {blockDetail.data.result.miner} <br></br>
+            Txs {blockDetail.data.result.transactions.length}
+          </Table.Cell>
+          <Table.Cell>
+            <Label color="blue">Size </Label> {parseInt(blockDetail.data.result.size)} bytes
           </Table.Cell>
         </Table.Row>
-      )
+      );
+
+      this.setState({
+        blocks: blocks,
+      });
     }
   };
 

@@ -72,9 +72,9 @@ class EthOverview extends Component {
         .then((blockDetail) => {
           const { result } = blockDetail.data;
 
-          const blockTime = parseInt(result.timestamp).toString();
-          const blockUnix = blockTime;
-          const convertBlockTime = new Date(blockUnix * 1000);
+          // const blockTime = parseInt(result.timestamp).toString();
+          // const blockUnix = blockTime;
+          // const convertBlockTime = new Date(blockUnix * 1000);
 
           const difficulty = parseInt(result.difficulty).toString();
 
@@ -84,7 +84,7 @@ class EthOverview extends Component {
             difficulty: difficultyTH,
           });
 
-          //console.log(difficulty, convertBlockTime.toLocaleString());
+          //console.log('diff:' + difficulty, convertBlockTime.toLocaleString());
         });
     });
     /* END BLOCK */
@@ -97,7 +97,7 @@ class EthOverview extends Component {
   };
 
   render() {
-    const { ethUSD, ethBTC, currentDate } = this.state;
+    const { ethUSD, ethBTC, currentDate, difficulty } = this.state;
     // convert unix timestamp to date
     const unixTime = currentDate;
     const dateConvert = new Date(unixTime * 1000);
@@ -108,7 +108,7 @@ class EthOverview extends Component {
         {dateConvert.toLocaleString()}
         <Grid>
           <Grid.Row>
-            <Grid.Column width={5}>
+            <Grid.Column width={4}>
               <Card>
                 <Card.Content>
                   <Card.Header style={{ color: '#1A90df' }}>
@@ -120,6 +120,16 @@ class EthOverview extends Component {
                     {ethBTC} <Icon name="bitcoin"></Icon>
                     <Icon name="clock"></Icon>
                   </Card.Description>
+                </Card.Content>
+              </Card>
+            </Grid.Column>
+            <Grid.Column width={4}>
+              <Card>
+                <Card.Content>
+                  <Card.Header style={{ color: '#1A90df' }}>
+                    <Icon name="setting"></Icon> DIFFICULTY
+                  </Card.Header>
+                  <Card.Description textAlign="left">{difficulty}</Card.Description>
                 </Card.Content>
               </Card>
             </Grid.Column>
