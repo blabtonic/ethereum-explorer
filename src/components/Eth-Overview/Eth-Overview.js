@@ -3,6 +3,7 @@ import axios from 'axios';
 import './eth-overview.css';
 import { Card, Grid, Icon } from 'semantic-ui-react';
 import LatestBlocks from '../Latest-Blocks/index';
+import LatestTxs from '../Latest-Txs/index';
 
 // import api key
 const KEY = process.env.REACT_APP_ETHERSCAN_API_KEY;
@@ -93,6 +94,12 @@ class EthOverview extends Component {
   getLatestBlocks = () => {
     if (this.state.latestBlock) {
       return <LatestBlocks latestBlock={this.state.latestBlock}></LatestBlocks>;
+    }
+  };
+
+  getLatestTxs = () => {
+    if (this.state.blockNo) {
+      return <LatestTxs blockNo={this.state.blockNo}></LatestTxs>;
     }
   };
 
