@@ -97,7 +97,7 @@ class EthOverview extends Component {
   };
 
   render() {
-    const { ethUSD, ethBTC, currentDate, difficulty, marketCap } = this.state;
+    const { ethUSD, ethBTC, currentDate, difficulty, marketCap, latestBlock } = this.state;
     // convert unix timestamp to date
     const unixTime = currentDate;
     const dateConvert = new Date(unixTime * 1000);
@@ -120,6 +120,16 @@ class EthOverview extends Component {
                     {ethBTC} <Icon name="bitcoin"></Icon>
                     <Icon name="clock"></Icon>
                   </Card.Description>
+                </Card.Content>
+              </Card>
+            </Grid.Column>
+            <Grid.Column width={4}>
+              <Card>
+                <Card.Content>
+                  <Card.Header style={{ color: '#1A90df' }}>
+                    <Icon name="cube"></Icon>LATEST BLOCK
+                  </Card.Header>
+                  <Card.Description>{latestBlock}</Card.Description>
                 </Card.Content>
               </Card>
             </Grid.Column>

@@ -42,8 +42,7 @@ class LatestBlocks extends Component {
             <Label color="blue">Bk</Label> {latestBlock - i}
           </Table.Cell>
           <Table.Cell>
-            Miner {blockDetail.data.result.miner} <br></br>
-            Txs {blockDetail.data.result.transactions.length}
+
           </Table.Cell>
           <Table.Cell>
             <Label color="blue">Size </Label> {parseInt(blockDetail.data.result.size)} bytes
