@@ -34,18 +34,17 @@ class LatestBlocks extends Component {
             )}&boolean=true&apikey=${apiKey}`
         );
 
-        const { result } = blockDetail.data;
         blocks.push(
           <Table.Row key={i}>
             <Table.Cell>
               <Label color="blue">Bk</Label> {latestBlock - i}
             </Table.Cell>
             <Table.Cell>
-              Miner {result.miner} <br></br>
-              Txs {result.transactions.length}
+              Miner {blockDetail.data.result.miner} <br></br>
+              Txs {blockDetail.data.result.transactions.length}
             </Table.Cell>
             <Table.Cell>
-              <Label color="blue">Size </Label> {parseInt(result.size)} bytes
+              <Label color="blue">Size </Label> {parseInt(blockDetail.data.result.size)} bytes
             </Table.Cell>
           </Table.Row>
         );
