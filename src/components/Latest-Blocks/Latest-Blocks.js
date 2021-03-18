@@ -61,7 +61,7 @@ class LatestBlocks extends Component {
       <Table fixed>
         <Table.Header>
           <Table.Row>
-            <Table.Cell style={{ color: '#1d6fa5' }}>
+            <Table.Cell style={{ color: '#1A90df' }}>
               <h4>Latest Blocks</h4>
             </Table.Cell>
           </Table.Row>
