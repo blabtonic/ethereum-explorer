@@ -13,7 +13,9 @@ class LatestTxs extends Component {
     };
   }
 
-  componentDidMount = () => {};
+  componentDidMount = () => {
+    this.getTxs();
+  };
 
   getTxs = async () => {
     const { blockNo } = this.props;
@@ -28,26 +30,28 @@ class LatestTxs extends Component {
 
     let txsDetails = [];
 
-    for (let i = 0; i < 2; i = i + 1) {
-      const tx = transactions[i];
-      txsDetails.push(
-        <Table.Row key={i}>
-          <Table.Cell>
-            <Label color="blue">Tx</Label>
-            {tx.hash}
-          </Table.Cell>
-          <Table.Cell>
-            From {tx.from}
-            <br />
-            To {tx.to}
-          </Table.Cell>
-          <Table.Cell>
-            {' '}
-            <Label color="blue">Eth</Label>
-            {parseInt(tx.value) / 10 ** 18}
-          </Table.Cell>
-        </Table.Row>
-      );
+    if (transactions) {
+      for (let i = 0; i < 2; i = i + 1) {
+        const tx = transactions[i];
+        txsDetails.push(
+          <Table.Row key={i}>
+            <Table.Cell>
+              <Label color="blue">Tx</Label>
+              {tx.hash}
+            </Table.Cell>
+            <Table.Cell>
+              From {tx.from}
+              <br />
+              To {tx.to}
+            </Table.Cell>
+            <Table.Cell>
+              {' '}
+              <Label color="blue">Eth</Label>
+              {parseInt(tx.value) / 10 ** 18}
+            </Table.Cell>
+          </Table.Row>
+        );
+      }
     }
 
     this.setState({

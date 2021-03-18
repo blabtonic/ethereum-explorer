@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Table, Label } from 'semantic-ui-react';
+
 import axios from 'axios';
 
-const KEY = process.env.REACT_APP_ETHERSCAN_API_KEY;
-const endpoint = 'https://api.etherscan.io/api';
+const apiKey = process.env.REACT_APP_ETHERSCAN_API_KEY;
+const endpoint = `https://api.etherscan.io/api`;
 
 class LatestBlocks extends Component {
   constructor(props) {
@@ -22,37 +23,37 @@ class LatestBlocks extends Component {
 
     let blocks = [];
 
-    for (let i = 0; i < 2; i = i + 1) {
-      // get the block transaction
-      // const blockDetail = await axios.get(
-      //   endpoint +
-      //     `?module=proxy&action=eth_getBlockByNumber&tag=${(latestBlock - i).toString(
-      //       16
-      //     )}&boolean=true&apikey=${KEY}`
-      // );
-      const blockDetail = await axios.get(
-        endpoint +
-          `?module=proxy&action=eth_getBlockByNumber&tag=0x10d4f&boolean=true&apikey=${KEY}`
-      );
+    // check if latest blocks
+    if (latestBlock) {
+      for (let i = 0; i < 2; i = i + 1) {
+        // get the block transaction
+        const blockDetail = await axios.get(
+          endpoint +
+            `?module=proxy&action=eth_getBlockByNumber&tag=${(latestBlock - i).toString(
+              16
+            )}&boolean=true&apikey=${apiKey}`
+        );
 
-      console.log(blockDetail.data);
-      blocks.push(
-        <Table.Row key={i}>
-          <Table.Cell>
-            <Label color="blue">Bk</Label> {latestBlock - i}
-          </Table.Cell>
-          <Table.Cell>
+        const { result } = blockDetail.data;
+        blocks.push(
+          <Table.Row key={i}>
+            <Table.Cell>
+              <Label color="blue">Bk</Label> {latestBlock - i}
+            </Table.Cell>
+            <Table.Cell>
+              Miner {result.miner} <br></br>
+              Txs {result.transactions.length}
+            </Table.Cell>
+            <Table.Cell>
+              <Label color="blue">Size </Label> {parseInt(result.size)} bytes
+            </Table.Cell>
+          </Table.Row>
+        );
 
-          </Table.Cell>
-          <Table.Cell>
-            <Label color="blue">Size </Label> {parseInt(blockDetail.data.result.size)} bytes
-          </Table.Cell>
-        </Table.Row>
-      );
-
-      this.setState({
-        blocks: blocks,
-      });
+        this.setState({
+          blocks: blocks,
+        });
+      }
     }
   };
 
@@ -61,7 +62,7 @@ class LatestBlocks extends Component {
       <Table fixed>
         <Table.Header>
           <Table.Row>
-            <Table.Cell style={{ color: '#1A90df' }}>
+            <Table.Cell style={{ color: '#1d6fa5' }}>
               <h4>Latest Blocks</h4>
             </Table.Cell>
           </Table.Row>
